@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .yarn
+.vscode/extensions.json
+
+.vscode/extensions.json
