@@ -22,7 +22,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.yarn
-.vscode/extensions.json
-
-.vscode/extensions.json
