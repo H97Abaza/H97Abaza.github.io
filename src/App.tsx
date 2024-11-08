@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+// App.tsx
+import { styled } from "@mui/material";
+import React from "react";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import INFO, { Info } from "./components/INFO";
+import Section, { SectionProps } from "./components/Section";
+import StepsProvider from "./components/StepsProvider";
+import WelcomeSection from "./components/WelcomeSection";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App: React.FC = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <AppContainer>
+      <Header />
+      <WelcomeSection />
+      {...INFO.sections.map((props) => (
+        <StepsProvider
+          steps={
+            INFO?.[
+              props.content.dataPath as Exclude<
+                keyof Info,
+                "steps" | "sections"
+              >
+            ]
+          }
+        >
+          <Section {...(props as SectionProps)} />
+        </StepsProvider>
+      ))}
+      <Footer />
+    </AppContainer>
+  );
+};
 
-export default App
+export default App;
+
+const AppContainer = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  height: "100vh",
+  "& > section": {
+    "--background-from": theme.palette.analogous1.main,
+    "--background-to": theme.palette.analogous2.main,
+    background: theme.mixins.gradientBackground.bgGradient.background,
+    "--background-angle": "45deg",
+    "&:nth-of-type(even)": {
+      "--background-angle": "135deg",
+    },
+  },
+}));
